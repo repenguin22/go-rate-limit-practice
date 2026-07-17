@@ -14,7 +14,7 @@ import (
 // 壁時計に固定されず現在時刻とともに滑るため、固定ウィンドウの境界バースト
 // 問題が起きず、任意の連続する window 幅で厳密に limit 以下を保証する。
 //
-// 代償として key あたり最大 limit 個のタイムスタンプ(1個=16バイト以上)を
+// 代償として key あたり最大 limit 個のタイムスタンプ(64-bit 環境で1個24バイト)を
 // 保持するため、limit が大きいとメモリを消費する。
 // 詳細は docs/03-sliding-window-log.md を参照。
 type SlidingWindowLog struct {

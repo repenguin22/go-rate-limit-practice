@@ -31,11 +31,11 @@ func TestTokenBucket_MatchesXTimeRate(t *testing.T) {
 		advance time.Duration
 		n       int // この時点で連続して送るリクエスト数
 	}{
-		{"initial burst", 0, 12},           // 10許可 + 2拒否のはず
-		{"half refill", 3 * time.Second, 1}, // 0.5個 → 拒否
-		{"one refill", 3 * time.Second, 2},  // 1個 → 1許可 + 1拒否
+		{"initial burst", 0, 12},             // 10許可 + 2拒否のはず
+		{"half refill", 3 * time.Second, 1},  // 0.5個 → 拒否
+		{"one refill", 3 * time.Second, 2},   // 1個 → 1許可 + 1拒否
 		{"full refill", 2 * time.Minute, 12}, // 満タン → 10許可 + 2拒否
-		{"steady pace", 6 * time.Second, 1}, // ちょうど1個 → 許可
+		{"steady pace", 6 * time.Second, 1},  // ちょうど1個 → 許可
 	}
 	for _, step := range steps {
 		clock.Advance(step.advance)

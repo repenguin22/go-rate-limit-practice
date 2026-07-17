@@ -346,6 +346,22 @@ func TestTokenBucket_CustomBurst(t *testing.T) {
 	}
 }
 
+// WithBurst(0) は「未指定」としてインメモリ版と同じく limit にフォールバックする。
+func TestTokenBucket_BurstZeroMeansLimit(t *testing.T) {
+	_, client := setup(t)
+	tb, err := NewTokenBucket(client, 2, time.Minute, WithBurst(0))
+	if err != nil {
+		t.Fatalf("WithBurst(0) should mean unset, got error: %v", err)
+	}
+	ctx := context.Background()
+
+	tb.Allow(ctx, "user1")
+	tb.Allow(ctx, "user1")
+	if res, _ := tb.Allow(ctx, "user1"); res.Allowed {
+		t.Error("burst should default to limit=2: #3 got allowed, want denied")
+	}
+}
+
 func TestTokenBucket_SharedAcrossInstances(t *testing.T) {
 	_, client := setup(t)
 	server1, _ := NewTokenBucket(client, 2, time.Minute)

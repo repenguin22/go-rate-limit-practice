@@ -132,7 +132,8 @@ if len(log) == 0 || !log[len(log)-1].After(cutoff) {
 | 向かない場面 | limit が大きい一般APIの流量制限 |
 
 「正確さが必要な場面では limit も小さいことが多い」ため、実務でも
-用途を選べば現役の方式。Redis の Sorted Set で分散版も素直に作れる(Stage 8)。
+用途を選べば現役の方式。Redis の Sorted Set を使った分散版も素直に作れるが、
+本プロジェクトの Stage 8 では実装していない(Stage 8 の演習2として扱う)。
 
 ## 5. 演習(理解の確認)
 

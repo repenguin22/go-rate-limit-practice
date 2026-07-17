@@ -191,7 +191,7 @@ func TestLeakyBucket_DeleteExpired(t *testing.T) {
 	lb := newTestLeakyBucket(t, 10, time.Minute, clock)
 	ctx := context.Background()
 
-	lb.Allow(ctx, "idle")   // 水位1。空になるまで6秒
+	lb.Allow(ctx, "idle") // 水位1。空になるまで6秒
 	clock.Advance(6 * time.Second)
 	lb.Allow(ctx, "active") // 水位1。まだ空でない
 

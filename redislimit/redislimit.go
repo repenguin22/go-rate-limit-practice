@@ -44,7 +44,7 @@ func WithKeyPrefix(p string) Option {
 }
 
 // WithBurst はバケツ容量を変更する。TokenBucket 専用で、他では無視される。
-// 未指定の場合、容量は limit と同じになる。
+// 0 は「未指定」扱いで、容量は limit と同じになる(インメモリ版と同じ規約)。
 func WithBurst(n int) Option {
 	return func(cfg *config) { cfg.burst = n }
 }

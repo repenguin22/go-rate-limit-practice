@@ -76,11 +76,14 @@ func NewTokenBucket(client Scripter, limit int, window time.Duration, opts ...Op
 	if err := validate(client, limit, window); err != nil {
 		return nil, err
 	}
-	cfg := config{prefix: "ratelimit:token:", burst: limit}
+	cfg := config{prefix: "ratelimit:token:"}
 	for _, opt := range opts {
 		opt(&cfg)
 	}
-	if cfg.burst <= 0 {
+	if cfg.burst == 0 {
+		cfg.burst = limit // 0 は「未指定」(インメモリ版と同じ規約)
+	}
+	if cfg.burst < 0 {
 		return nil, errBurst(cfg.burst)
 	}
 	return &TokenBucket{
@@ -99,6 +102,7 @@ func (b *TokenBucket) Allow(ctx context.Context, key string) (ratelimit.Result, 
 	if err != nil {
 		return ratelimit.Result{}, err
 	}
+	// ResetAt(絶対時刻)のみアプリ時計基準(fixedwindow.go の注記と同じ)。
 	return ratelimit.Result{
 		Allowed:    vals[0] == 1,
 		Limit:      b.burst,

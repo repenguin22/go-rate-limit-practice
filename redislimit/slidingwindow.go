@@ -108,6 +108,7 @@ func (s *SlidingWindow) Allow(ctx context.Context, key string) (ratelimit.Result
 	if err != nil {
 		return ratelimit.Result{}, err
 	}
+	// ResetAt(絶対時刻)のみアプリ時計基準(fixedwindow.go の注記と同じ)。
 	return ratelimit.Result{
 		Allowed:    vals[0] == 1,
 		Limit:      s.limit,

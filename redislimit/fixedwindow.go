@@ -69,6 +69,9 @@ func (f *FixedWindow) Allow(ctx context.Context, key string) (ratelimit.Result, 
 	allowed, count, ttlMs := vals[0] == 1, int(vals[1]), vals[2]
 
 	ttl := time.Duration(ttlMs) * time.Millisecond
+	// ResetAt(絶対時刻)のみアプリ時計基準。判定と RetryAfter は Redis 時刻で
+	// 行われるため、時計スキュー時もずれるのはこのヘッダ用時刻だけで、
+	// 許可/拒否の正しさには影響しない。
 	res := ratelimit.Result{
 		Allowed:   allowed,
 		Limit:     f.limit,

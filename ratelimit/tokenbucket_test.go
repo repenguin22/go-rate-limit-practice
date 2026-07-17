@@ -201,7 +201,7 @@ func TestTokenBucket_DeleteExpired(t *testing.T) {
 	tb := newTestTokenBucket(t, 10, time.Minute, clock)
 	ctx := context.Background()
 
-	tb.Allow(ctx, "idle")   // 残9個。満タンまで6秒
+	tb.Allow(ctx, "idle") // 残9個。満タンまで6秒
 	clock.Advance(6 * time.Second)
 	tb.Allow(ctx, "active") // 残9個。まだ満タンでない
 

@@ -88,9 +88,13 @@ go-rate-limit/
 │   ├── 06-leaky-bucket.md
 │   ├── 07-http-middleware.md
 │   ├── 08-x-time-rate.md        # x/time/rate との比較
-│   └── 09-distributed-redis.md  # 分散レートリミット
+│   ├── 09-distributed-redis.md  # 分散レートリミット
+│   └── 10-production-guide.md   # 実務ガイド(付録)
 ├── ratelimit/                   # インメモリ実装(標準ライブラリのみ)
 │   ├── ratelimit.go             # 共通インターフェース・Result・クロック定義
+│   ├── options.go               # 共通オプション(WithClock 等)
+│   ├── janitor.go               # ジャニター共通処理
+│   ├── tier.go / _test.go       # プラン別振り分け TierLimiter(付録)
 │   ├── fixedwindow.go / _test.go
 │   ├── slidingwindowlog.go / _test.go
 │   ├── slidingwindowcounter.go / _test.go
@@ -117,4 +121,4 @@ go-rate-limit/
 - [x] Redis バックエンドの分散実装(3方式)が実装され、テストされている
 - [x] HTTPミドルウェアとデモサーバーが動作する(起動して 429 / Retry-After を確認済み)
 - [x] 各 Stage の解説ドキュメントが揃っている(docs/01〜09)
-- [x] ベンチマーク結果を比較した考察がドキュメントに含まれている(docs/06 §6、docs/08 §5)
+- [x] ベンチマーク結果を比較した考察がドキュメントに含まれている(docs/04 §4・docs/06 §4・docs/08 §5)
